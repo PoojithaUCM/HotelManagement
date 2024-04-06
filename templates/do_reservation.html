@@ -1,0 +1,25 @@
+{% include 'head2.html' %}
+<div class="container mt-3">
+        <form action="do_reservation1_new" method="post">
+            <div class="row">
+                <div class="col-md-3 mt-3">
+                    <label for="expected_check_in_date" class="form-label text-white">Expected Check In Date</label>
+                    <input type="datetime-local" id="expected_check_in_date" name="expected_check_in_date" class="form-control" required>
+                </div>
+                <div class="col-md-3 mt-3 ">
+                    <label for="expected_check_out_date" class="form-label text-white">Expected Check Out Date</label>
+                    <input type="datetime-local" id="expected_check_out_date" name="expected_check_out_date" class="form-control" required>
+                </div>
+                <div class="col-md-3 mt-3">
+                    <label for="no_of_rooms" class="form-label text-white">Number Of Rooms</label>
+                    <input type="number" id="no_of_rooms" name="no_of_rooms" class="form-control" placeholder="Enter Number Of Rooms" required>
+                </div>
+                <div class="col-md-3 mt-5">
+                    <input type="submit" value="Reserve" class="btn btn-primary w-100">
+                    {%for room_type in room_types%}
+                       <input type="hidden" name="room_type_id" value="{{room_type['_id']}}">
+                    {% endfor %}
+                </div>
+            </div>
+        </form>
+</div>

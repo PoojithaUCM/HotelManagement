@@ -1,0 +1,72 @@
+{% include 'head2.html' %}
+<style>
+    [type="checkbox"] {
+        display: None;
+    }
+    [type="checkbox"]:checked ~ label > div  {
+        background-color:blue;
+        color: white;
+    }
+</style>
+
+<script>
+    let selected_rooms_list = []
+    function selected_rooms(room_id){
+        let no_of_rooms = document.getElementById("no_of_rooms").value
+        console.log(room_id)
+        console.log(no_of_rooms)
+        let is_checked = $("#"+room_id).is(':checked')
+        if(is_checked) {
+            selected_rooms_list.push(room_id)
+            if(parseInt(no_of_rooms)<selected_rooms_list.length){
+                alert("Only "+no_of_rooms+" rooms you can Select")
+                selected_rooms_list.pop(room_id)
+                $("#"+room_id).prop('checked', false); // Unchecks it
+
+            }
+        }else{
+            selected_rooms_list.pop(room_id)
+        }
+        console.log(selected_rooms_list)
+
+    }
+</script>
+
+<div class="container">
+    <form action="select_room1" method="post">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3 mt-3">
+                <input type="submit" value="Assign Rooms" class="btn btn-primary w-100">
+            </div>
+        </div>
+    <input type="hidden" id="no_of_rooms" value="{{reservation['no_of_rooms']}}">
+    <input type="hidden" name="reservation_id" value="{{reservation['_id']}}">
+
+    <div class="row">
+        {% for room in rooms %}
+           <div class="col-md-3">
+               <input type="checkbox" name="{{str(room['_id'])}}" onchange="selected_rooms('{{str(room['_id'])}}')" value="{{str(room['_id'])}}" id="{{str(room['_id'])}}">
+               <label for="{{str(room['_id'])}}">
+                   <div class="card p-3 mt-3">
+                       <div class="row">
+                              <div class="col-md-8">
+                                  <div class="mt-3"><img src="../static/pic/{{room['pic']}}/" width="150" height="150"></div>
+                              </div>
+                              <div class="col-md-4 mt-4">
+                                  <div class="text-center h3">{{room['room_number']}}</div>
+                              </div>
+                       </div>
+                       <div class="row">
+                          <div class="mt-3"><strong>Availability Status:</strong> {{room['availability_status']}}</div>
+                          <div class="mt-3"><strong>Description:</strong> {{room['description']}}</div>
+                       </div>
+                   </div>
+               </label>
+            </div>
+        {% endfor %}
+    </div>
+    </form>
+</div>
